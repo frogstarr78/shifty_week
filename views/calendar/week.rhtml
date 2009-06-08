@@ -1,0 +1,23 @@
+<%= 
+		prev_date = (@week-7)
+		next_date = (@week+7)
+		render :partial => 'header', :locals => {:prev_date => prev_date, :next_date => next_date}
+%>
+		<tbody>
+			<%= render :partial => "day_names" %>			
+			<tr>
+				<td class="week_border">
+					<div style="width: 101%;">v</div>
+					<div class="line">&nbsp;</div>
+					<%= link_to (@week.week == 1 ? (@week<<1).weeks_in_year : @week.week-1).to_s, week_path(prev_date.year, prev_date.week) %>
+					<div class="line">&nbsp;</div>
+				</td>
+				<%= render :partial => 'wday', :collection => @week.week_days, :locals => { :date => @week, :show_hours => true, :show_near_month_wdays => true } %>
+				<td class="week_border">
+					<div style="width: 101%;">v</div>
+					<div class="line">&nbsp;</div>
+					<%= link_to (@week.week == @week.weeks_in_year ? 1 : @week.week+1).to_s, week_path(next_date.year, next_date.week) %>
+					<div class="line">&nbsp;</div>
+				</td>
+			</tr>
+		</tbody>

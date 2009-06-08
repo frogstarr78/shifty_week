@@ -1,0 +1,29 @@
+<td style="vertical-align: top;">
+  <table>
+    <tr>
+      <td>&nbsp;</td>
+      <th colspan="7" style="text-align: right; border: 1px inset;">
+        <%= link_to month.month_name, month_path(month.year, month.month) %>
+      </th>
+    </tr>
+		<%= render :partial => "day_names" %>
+<%
+		month.step_to_month_end(7) { |date| 
+%>
+			<tr>
+				<td class="week">
+					<%= link_to date.week, week_path(date.year, date.week) %>
+				</td>
+				<%= render :partial => 'wday',
+							:collection => date.week_days,
+							:locals => {
+                :date                  => month,
+								:show_hours            => false,
+                :show_near_month_wdays => false
+							} %>
+			</tr>
+<%
+		}
+%>
+  </table>
+</td>

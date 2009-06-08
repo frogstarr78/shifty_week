@@ -1,0 +1,72 @@
+<%
+		if follow_time
+			time = Time.parse(@today.strftime("%Y-%m-%d %H:00 %p"))
+		else
+			time = Time.parse(date.strftime("%Y-%m-%d 0:00 am"))
+		end
+		last_time = time>>(60*24)
+		seen_tomorrow = false
+		until (time <=> last_time) == 0
+			classes = ""
+%>
+			<div
+				<%=
+          if not seen_tomorrow
+						if time.day != date.day
+							'style="border-right: 2px groove; border-left: 2px groove; border-top: 2px groove; height: 100%;"'
+						end
+					else
+						'style="border-right: 2px groove; border-left: 2px groove;"'
+					end
+				%>
+			>
+<%
+				if time.day != date.day and not seen_tomorrow
+%>
+					<%= 
+						format = "%m/%d"
+#            link_to time.strftime(format), "/calendar/#{controller.action_name}?date=#{time.strftime("%Y-%m-%d %H:%M:0")}"
+            link_to time.strftime(format), day_path(time.year, time.month, time.day)
+					%>
+<%
+					seen_tomorrow = true
+				end	
+				if time.to_time < @today.to_time
+					classes += " earlier"
+				end
+%>
+				<div 
+					class="hour<%= classes %>"
+					title="<%= time %>"
+					style="border-top: 1px outset;"
+				>
+					<% format = (military_time ? "%H:%M" : "%I:%M %p") %>
+					<%= time.strftime(format) %>
+				</div>
+<%
+				time=time>>30
+				classes.chomp! "earlier"
+				if time < @today.to_time
+					classes += " earlier"
+				end
+%>
+				<div 
+					title="<%= time %>"
+					class="<%= classes %>"
+				>
+				<%
+					classes += " half-hour"
+				%>
+					<div
+						class="<%= classes %>"
+						onmouseover="this.style.opacity='.9';this.style.borderTop='1px inset';"
+						onmouseout="this.style.opacity='.1';this.style.borderTop='0px';"
+					>
+						<%= time.strftime(format) %>
+					</div>
+				</div>
+			</div>
+<%
+			time=time>>30
+		end
+%>

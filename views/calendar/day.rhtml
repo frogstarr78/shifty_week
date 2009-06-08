@@ -1,0 +1,8 @@
+		<%= render :partial => 'header', :locals => {:prev_date => @day-1, :next_date => @day+1}  %>
+		<tbody>
+			 <tr>
+				<td colspan="9" class="day"> 
+					<%= render :partial => "hours", :locals => { :date => @day } %>
+				 </td>
+			</tr>
+		</tbody>

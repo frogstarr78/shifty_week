@@ -1,0 +1,19 @@
+		<%= render :partial => "day_names" %>
+<%
+		@month.step_to_month_end(7) { |date| 
+%>
+			<tr>
+				<td class="week">
+					<%= link_to date.week, week_path(date.year, date.week) %>
+				</td>
+				<%= render :partial => 'wday',
+							:collection => date.week_days,
+							:locals => {
+                :date                  => date,
+								:show_hours            => show_hours,
+								:show_near_month_wdays => show_near_month_wdays
+							} %>
+			</tr>
+<%
+		}
+%>

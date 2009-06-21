@@ -1,18 +1,7 @@
 require 'calendar'
 
 class Time
-  HOUR = 60*60
-  DAY = HOUR*24
-  DAYS = lambda {|int| DAY*int }
-
   include Calendar
-  def to_billing_week_start
-    (self.to_datetime-offset_from_billing_week_start).beginning_of_day
-  end
-  def to_billing_week_end
-    ((self.to_datetime-offset_from_billing_week_start)+6).end_of_day
-  end
-
   def >> int
 #    r = self
 #    (int < 0 ? int*-1 : int).times do 

@@ -1,5 +1,3 @@
-require 'calendar'
-
 class Date
   include Calendar
 	attr_writer :week_day_start

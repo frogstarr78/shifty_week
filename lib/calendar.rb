@@ -1,6 +1,6 @@
 module Calendar
   # TODO: Implement Quarters
-  WORKER_FORMAT = "%Y-%m-%d %H:%M:%S"
+  WORKER_FORMAT="%Y-%m-%d %H:%M:%S"
 
   # TODO: Implement human_diff method 2009-02-01 - 2009-01-01 #=> 1 month or 31 days, etc...
 #  def human_diff o, options = {}

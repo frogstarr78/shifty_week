@@ -1,5 +1,3 @@
-require 'calendar'
-
 class Time
   include Calendar
   def >> int

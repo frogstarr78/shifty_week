@@ -3,6 +3,6 @@
 require 'time'
 require 'date'
 
-require 'lib/calendar'
-require 'lib/calendar/time'
-require 'lib/calendar/date'
+require File.join(File.dirname(__FILE__), 'lib', 'calendar')
+require File.join(File.dirname(__FILE__), 'lib', 'calendar', 'time')
+require File.join(File.dirname(__FILE__), 'lib', 'calendar', 'date')

@@ -2,7 +2,7 @@ require 'test/test_helper'
 
 class DateTest < Test::Unit::TestCase
 	def test_step
-		date = DateTime.now
+		date = Date.strptime Time.now.strftime("%Y-%m-%d")
 		future_date = date+6
 		received_date = date
 		date.step(7){ |d| received_date = d }

@@ -1,7 +1,7 @@
 require 'test/test_helper'
 
 class CalendarTest < Test::Unit::TestCase
-	def test_week
+  def test_week_starting_sunday
       month_starts = [
    %w(Su Mo Tu We Th Fr Sa
       \  \   1  2  3  4  5
@@ -54,6 +54,9 @@ class CalendarTest < Test::Unit::TestCase
       19 20 21 22 23 24 25
       26 27 28 29 30 31)
      ]
+  end
+
+	def test_week
 
     date = DateTime.new(2008, 1, 6)
     assert_equal(0, date.send("wday_offset"))
@@ -80,29 +83,23 @@ class CalendarTest < Test::Unit::TestCase
     }
 
 		date = DateTime.new(2008, 1, 3)
-#		date.start_week_day = 'Wed'
 		date.week_day_start = 'Wed'
 		assert_equal(1, date.send("wday_offset"))
 		assert_equal(2, date.week, "week #{date.week} on date #{date.to_s} != 2")
 
 		date = date-1
-#		date.start_week_day = 'Wed'
 		date.week_day_start = 'Wed'
 		assert_equal(0, date.send("wday_offset"))
 		assert_equal("2008-01-02", date.strftime("%Y-%m-%d"))
-#		assert_equal(2, date.week, "week #{date.week} on date #{date.to_s} != 2 with wday_start #{date.start_week_day}")
 		assert_equal(2, date.week, "week #{date.week} on date #{date.to_s} != 2 with wday_start #{date.week_day_start}")
 
 		date = date-1
-#		date.start_week_day = 'Wed'
 		date.week_day_start = 'Wed'
 		assert_equal(6, date.send("wday_offset"))
 		assert_equal("2008-01-01", date.strftime("%Y-%m-%d"))
-#		assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 1 with wday_start #{date.start_week_day}")
 		assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 1 with wday_start #{date.week_day_start}")
 
 		date = DateTime.new(2007)
-#		date.start_week_day = 'Sunday'
 		date.week_day_start = 'Sunday'
 		assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 1")
 		assert_equal(1, (date+5).week, "week #{(date+5).week} on date #{(date+5).to_s} != 1")
@@ -204,7 +201,6 @@ class CalendarTest < Test::Unit::TestCase
 			date.week_days.collect {|date| date.to_s}
 		)
 		date = DateTime.new(2007)
-#		date.start_week_day = 'Saturday'
 		date.week_day_start = 'Saturday'
 		assert_equal([
 				DateTime.new(2006, 12, 30).to_s, 
@@ -218,7 +214,6 @@ class CalendarTest < Test::Unit::TestCase
 		)
 
 		date = DateTime.new(2008)
-#		date.start_week_day = 'Tue'
 		date.week_day_start = 'Tue'
 		assert_equal([
 				DateTime.new(2008, 1, 1).to_s,
@@ -231,7 +226,6 @@ class CalendarTest < Test::Unit::TestCase
 			], date.week_days.collect {|date| date.to_s}
 		)
 		date = DateTime.new(2008)
-#		date.start_week_day = 'Wed'
 		date.week_day_start = 'Wed'
 		assert_equal([
 				DateTime.new(2007, 12, 26).to_s, 
@@ -270,7 +264,6 @@ class CalendarTest < Test::Unit::TestCase
 			date.week_days.collect {|date| date.to_s}
 		)
 		assert_equal('2008-01-05', date.strftime("%Y-%m-%d"))
-#		date.start_week_day = 2
 		date.week_day_start = 2
 		assert_equal([
 				DateTime.new(2008, 1, 1).to_s,
@@ -285,7 +278,6 @@ class CalendarTest < Test::Unit::TestCase
 		)
 
 		assert_equal('2008-01-07', date.strftime("%Y-%m-%d"))
-#		date.start_week_day = 'We'
 		date.week_day_start = 'We'
 		assert_equal([
 				DateTime.new(2008, 1, 2).to_s,

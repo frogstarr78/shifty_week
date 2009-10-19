@@ -32,35 +32,10 @@
 module ShiftyWeek
   class Constants # :nodoc:
     SUMMARY     = %q{Calculate dates based on a configurable first day of the week.}
-    DESCRIPTION = %q{
-Normally a calendar displayed by ruby for October 2009 would be appear:
-
-(Using cwday)
-Mo Tu We Th Fr Sa Su
-          1  2  3  4
- 5  6  7  8  9 10 11
-12 13 14 15 16 17 18
-19 20 21 22 23 24 25
-26 27 28 29 30 31
-
-(Using wday)
-Su Mo Tu We Th Fr Sa
-             1  2  3
- 4  5  6  7  8  9 10
-11 12 13 14 15 16 17
-18 19 20 21 22 23 24
-25 26 27 28 29 30 31
-
-With this gem you can set a week_day_start.
-In this example to Wed.
-And the calendar will be displayed:
-
-We Th Fr Sa Su Mo Tu
-    1  2  3  4  5  6
- 7  8  9 10 11 12 13
-14 15 16 17 18 19 20
-21 22 23 24 25 26 27
-28 29 30 31}
+    DESCRIPTION = %q{Calculate dates based on a configurable first day of the week. If you want
+    the first day of the week to be Wednesday and the current calendar Year-Month are 2009-10,
+    DateTime#week_days will return an array of DateTime objects which when formatted with "%Y-%m-%d %a" look like 
+    ["2009-10-14 Wed", "2009-10-15 Thu", "2009-10-16 Fri", "2009-10-17 Sat", "2009-10-18 Sun", "2009-10-19 Mon", "2009-10-20 Tue"] }
   end
 
   # TODO: Implement Quarters

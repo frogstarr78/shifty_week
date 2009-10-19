@@ -1,5 +1,5 @@
 class Time
-  include Calendar
+  include ShiftyWeek
   def >> int
 #    r = self
 #    (int < 0 ? int*-1 : int).times do 

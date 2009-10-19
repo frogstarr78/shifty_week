@@ -1,5 +1,5 @@
 class Date
-  include Calendar
+  include ShiftyWeek
 	attr_writer :week_day_start
 
   alias_method :'weekless_>>', :'>>'
@@ -27,7 +27,7 @@ class Date
 end
 
 class DateTime < Date
-  include Calendar
+  include ShiftyWeek
   def to_time
     Time.parse(self.strftime("%c -0800"), self)
   end

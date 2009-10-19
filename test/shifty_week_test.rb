@@ -1,6 +1,6 @@
-require 'test/test_helper'
+require 'test_helper'
 
-class CalendarTest < Test::Unit::TestCase
+class ShiftyWeekTest < Test::Unit::TestCase
   def test_week_starting_sunday
       month_starts = [
    %w(Su Mo Tu We Th Fr Sa

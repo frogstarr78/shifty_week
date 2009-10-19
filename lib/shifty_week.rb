@@ -1,5 +1,36 @@
+# Normally a calendar displayed by ruby for October 2009 would be appear:
+#
+#    (Using cwday)
+#    Mo Tu We Th Fr Sa Su
+#              1  2  3  4
+#     5  6  7  8  9 10 11
+#    12 13 14 15 16 17 18
+#    19 20 21 22 23 24 25
+#    26 27 28 29 30 31
+#    
+#    (Using wday)
+#    Su Mo Tu We Th Fr Sa
+#                 1  2  3
+#     4  5  6  7  8  9 10
+#    11 12 13 14 15 16 17
+#    18 19 20 21 22 23 24
+#    25 26 27 28 29 30 31
+#
+# With this gem you can set a week_day_start.
+#
+# In this example to Wed.
+#
+# And the calendar will be displayed::
+#
+#    We Th Fr Sa Su Mo Tu
+#        1  2  3  4  5  6
+#     7  8  9 10 11 12 13
+#    14 15 16 17 18 19 20
+#    21 22 23 24 25 26 27
+#    28 29 30 31
+
 module ShiftyWeek
-  class Constants
+  class Constants # :nodoc:
     SUMMARY     = %q{Calculate dates based on a configurable first day of the week.}
     DESCRIPTION = %q{
 Normally a calendar displayed by ruby for October 2009 would be appear:
@@ -33,8 +64,6 @@ We Th Fr Sa Su Mo Tu
   end
 
   # TODO: Implement Quarters
-  WORKER_FORMAT="%Y-%m-%d %H:%M:%S"
-
   # TODO: Implement human_diff method 2009-02-01 - 2009-01-01 #=> 1 month or 31 days, etc...
 #  def human_diff o, options = {}
 #    d = (self.day - o.day)*-1
@@ -100,6 +129,7 @@ We Th Fr Sa Su Mo Tu
     @week_day_start || 0
   end
   
+  # Get the days of the week based on the current week_day_start
   def week_days(options={}, &block)
     start_date = self
     result = []
@@ -115,19 +145,20 @@ We Th Fr Sa Su Mo Tu
   end
 
   # TODO: Implement month_weeks method
-#	def month_weeks(&block)
-#		result = []
-#		(self - (self.day-1)).step(self.days_in_month+(6-self.last_week_day), 7) { |d| 
-#			if block
-#				yield d
-#			else
-#				result.push(d.week) 
-#			end
-#		}
-#		result
-#	end
+#  def month_weeks(&block)
+#    result = []
+#    (self - (self.day-1)).step(self.days_in_month+(6-self.last_week_day), 7) { |d| 
+#      if block
+#        yield d
+#      else
+#        result.push(d.week) 
+#      end
+#    }
+#    result
+#  end
 
-	def step_to_month_end step = 1
+  # Hopefully the name explains what this method does
+  def step_to_month_end step = 1
     days_in_month = self.days_in_month
     days_in_month += self.wday_offset if self.days_in_month%(7*4) >= 0
     self.step(days_in_month, step) do |date| 
@@ -138,6 +169,7 @@ We Th Fr Sa Su Mo Tu
 
   class << self
 
+    # Let's generate some helpers
     def included in_class
       in_class.class.send :define_method, :day_names, proc {
           (
@@ -158,7 +190,7 @@ We Th Fr Sa Su Mo Tu
     end
   end
 
-	private
+  private
     # Calculate the dates within a week range taking into account "shifted" weeks
     def _week_day_numbers
         week_day_start = self.week_day_start

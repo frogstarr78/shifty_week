@@ -1,4 +1,4 @@
-module Calendar
+module ShiftyWeek
   # TODO: Implement Quarters
   WORKER_FORMAT="%Y-%m-%d %H:%M:%S"
 
@@ -138,3 +138,4 @@ module Calendar
       self.class.day_names
     end
 end
+

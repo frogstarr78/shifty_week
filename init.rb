@@ -3,6 +3,7 @@
 require 'time'
 require 'date'
 
-require File.join(File.dirname(__FILE__), 'lib', 'calendar')
-require File.join(File.dirname(__FILE__), 'lib', 'calendar', 'time')
-require File.join(File.dirname(__FILE__), 'lib', 'calendar', 'date')
+root_dir = File.dirname(__FILE__)
+require File.join(root_dir, 'lib', 'shifty_week')
+require File.join(root_dir, 'lib', 'shifty_week', 'time')
+require File.join(root_dir, 'lib', 'shifty_week', 'date')

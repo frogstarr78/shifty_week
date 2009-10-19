@@ -1,19 +1,13 @@
 require 'rubygems'
 require 'rake'
+require 'init'
 
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "shifty_week"
-    gem.summary = %Q{Calculate dates based on a configurable first day of the week.}
-    gem.description = %q{
-	Set a week_day_start to Wed for example. A displayed month for October 2009 would look like this:
-	We Th Fr Sa Su Mo Tu
-		1  2  3  4  5  6
-	 7  8  9 10 11 12 13
-	14 15 16 17 18 19 20
-	21 22 23 24 25 26 27
-	28 29 30 31}
+    gem.summary = ShiftyWeek::Constants::SUMMARY
+    gem.description = ShiftyWeek::Constants::DESCRIPTION
     gem.email = "frogstarr78@gmail.com"
     gem.homepage = "http://github.com/frogstarr78/shifty_week"
     gem.authors = ["Scott Noel-Hemming"]

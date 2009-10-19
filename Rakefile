@@ -11,6 +11,7 @@ begin
     gem.email = "frogstarr78@gmail.com"
     gem.homepage = "http://github.com/frogstarr78/shifty_week"
     gem.authors = ["Scott Noel-Hemming"]
+    gem.rdoc_options << '--main' << 'ShiftyWeek' << '--line-numbers'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError

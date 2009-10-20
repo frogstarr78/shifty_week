@@ -134,7 +134,7 @@ class ShiftyWeekTest < Test::Unit::TestCase
 			assert_equal(weeks, date.week, "week #{date.week} in year #{year} != 1")
 		}
 
-		for year in (2000..2006)
+		(2000..2006).each do |year|
 			day = 1
 				date = DateTime.new(year, 1, day)
 				assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 1")
@@ -187,7 +187,7 @@ class ShiftyWeekTest < Test::Unit::TestCase
 		}
 	end
 
-	def test_week_days
+	def test_week_days_control
 		date = DateTime.new(2007)
 		assert_equal([
 				DateTime.new(2006, 12, 31).to_s, 
@@ -200,6 +200,9 @@ class ShiftyWeekTest < Test::Unit::TestCase
 			], 
 			date.week_days.collect {|date| date.to_s}
 		)
+  end
+
+  def test_week_days_span_month_and_year_boundary_with_configured_week_day_start
 		date = DateTime.new(2007)
 		date.week_day_start = 'Saturday'
 		assert_equal([
@@ -212,7 +215,9 @@ class ShiftyWeekTest < Test::Unit::TestCase
 				DateTime.new(2007, 1, 5).to_s,
 			], date.week_days.collect {|date| date.to_s}
 		)
+  end
 
+  def test_week_days_dont_span_month_and_year_boundary_and_leap_year_because_of_configured_week_day_start
 		date = DateTime.new(2008)
 		date.week_day_start = 'Tue'
 		assert_equal([
@@ -225,6 +230,9 @@ class ShiftyWeekTest < Test::Unit::TestCase
 				DateTime.new(2008, 1, 7).to_s, 
 			], date.week_days.collect {|date| date.to_s}
 		)
+  end
+
+  def test_week_days_span_month_and_year_boundary_and_leap_year_because_of_configured_week_day_start
 		date = DateTime.new(2008)
 		date.week_day_start = 'Wed'
 		assert_equal([
@@ -237,9 +245,10 @@ class ShiftyWeekTest < Test::Unit::TestCase
 				DateTime.new(2008, 1, 1).to_s,
 			], date.week_days.collect {|date| date.to_s}
 		)
+  end
 
-
-		date = DateTime.new(2003)
+  def test_week_days_span_month_and_year_boundary_non_leap_year_with_non_configured_week_day_start
+    date = DateTime.new(2003)
 		assert_equal([
 				DateTime.new(2002, 12, 29).to_s, 
 				DateTime.new(2002, 12, 30).to_s, 
@@ -251,6 +260,9 @@ class ShiftyWeekTest < Test::Unit::TestCase
 			], 
 			date.week_days.collect {|date| date.to_s}
 		)
+  end
+
+  def test_week_days_span_month_and_year_boundary_non_leap_year_with_specific_day_but_non_configured_week_day_start
 		date = DateTime.new(2007, 12, 31)
 		assert_equal([
 				DateTime.new(2007, 12, 30).to_s, 
@@ -264,6 +276,10 @@ class ShiftyWeekTest < Test::Unit::TestCase
 			date.week_days.collect {|date| date.to_s}
 		)
 		assert_equal('2008-01-05', date.strftime("%Y-%m-%d"))
+  end
+
+  def test_week_days_with_configured_integer_week_day_start
+		date = DateTime.new(2007, 12, 31)
 		date.week_day_start = 2
 		assert_equal([
 				DateTime.new(2008, 1, 1).to_s,
@@ -278,6 +294,10 @@ class ShiftyWeekTest < Test::Unit::TestCase
 		)
 
 		assert_equal('2008-01-07', date.strftime("%Y-%m-%d"))
+  end
+
+  def test_week_days_with_abbreviated_week_day_name_week_day_start
+		date = DateTime.new(2007, 12, 31)
 		date.week_day_start = 'We'
 		assert_equal([
 				DateTime.new(2008, 1, 2).to_s,
@@ -293,15 +313,6 @@ class ShiftyWeekTest < Test::Unit::TestCase
 	end
 
   def test_step_to_month_end
-#    expected_display = {
-#    %w(January 2009) => 
-#    %w(Su Mo Tu We Th Fr Sa
-#       28 29 30 31  1  2  3
-#        4  5  6  7  8  9 10
-#       11 12 13 14 15 16 17
-#       18 19 20 21 22 23 24
-#       25 26 27 28 29 30 31)
-#    }
     expected_display = {
     %w(January 2009) => 
     %w(

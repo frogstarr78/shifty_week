@@ -1,63 +1,7 @@
 require 'test_helper'
 
 class ShiftyWeekTest < Test::Unit::TestCase
-  def test_week_starting_sunday
-      month_starts = [
-   %w(Su Mo Tu We Th Fr Sa
-      \  \   1  2  3  4  5
-       6  7  8  9 10 11 12
-      13 14 15 16 17 18 19
-      20 21 22 23 24 25 26
-      27 28 29 30 31),
-
-   %w(Mo Tu We Th Fr Sa Su
-      \   1  2  3  4  5  6
-       7  8  9 10 11 12 13
-      14 15 16 17 18 19 20
-      21 22 23 24 25 26 27
-      28 29 30 31),
-
-   %w(Tu We Th Fr Sa Su Mo
-       1  2  3  4  5  6  7
-       8  9 10 11 12 13 14
-      15 16 17 18 19 20 21
-      22 23 24 25 26 27 28
-      29 30 31),
-
-   %w(We Th Fr Sa Su Mo Tu
-      \  \  \  \  \  \   1
-       2  3  4  5  6  7  8
-       9 10 11 12 13 14 15
-      16 17 18 19 20 21 22
-      23 24 25 26 27 28 29
-      30 31),
-
-   %w(Th Fr Sa Su Mo Tu We
-      \  \  \  \  \   1  2
-       3  4  5  6  7  8  9
-      10 11 12 13 14 15 16
-      17 18 19 20 21 22 23
-      24 25 26 27 28 29 30
-      31),
-
-   %w(Fr Sa Su Mo Tu We Th
-      \  \  \  \   1  2  3
-       4  5  6  7  8  9 10
-      11 12 13 14 15 16 17
-      18 19 20 21 22 23 24
-      25 26 27 28 29 30 31),
-
-   %w(Sa Su Mo Tu We Th Fr
-      \  \  \   1  2  3  4
-       5  6  7  8  9 10 11
-      12 13 14 15 16 17 18
-      19 20 21 22 23 24 25
-      26 27 28 29 30 31)
-     ]
-  end
-
-	def test_week
-
+	def test_week_control
     date = DateTime.new(2008, 1, 6)
     assert_equal(0, date.send("wday_offset"))
     assert_equal(2, date.week, "week #{date.week} on date #{date.to_s} != 2")
@@ -65,7 +9,9 @@ class ShiftyWeekTest < Test::Unit::TestCase
     date = date-1
     assert_equal(6, date.send("wday_offset"))
     assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 2")
+  end
 
+  def test_week_expected_for_a_few_years
     years_days = {
         2000 => 2,
         2001 => 7,	
@@ -81,7 +27,9 @@ class ShiftyWeekTest < Test::Unit::TestCase
         date = DateTime.new(year, 1, day)
         assert_equal(2, date.week, "week #{date.week} on date #{date.to_s} != 1")
     }
+  end
 
+  def test_week_changes_calculate_correctly
 		date = DateTime.new(2008, 1, 3)
 		date.week_day_start = 'Wed'
 		assert_equal(1, date.send("wday_offset"))
@@ -98,7 +46,9 @@ class ShiftyWeekTest < Test::Unit::TestCase
 		assert_equal(6, date.send("wday_offset"))
 		assert_equal("2008-01-01", date.strftime("%Y-%m-%d"))
 		assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 1 with wday_start #{date.week_day_start}")
+  end
 
+  def test_week
 		date = DateTime.new(2007)
 		date.week_day_start = 'Sunday'
 		assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 1")
@@ -108,71 +58,25 @@ class ShiftyWeekTest < Test::Unit::TestCase
 		date = (date+7)
 #		date = DateTime.new(2007, 9, 1)
 		assert_equal(35, date.week, "week #{date.week} on date #{date.to_s} != 35")
+  end
 
-		years_days = {
-			1998 => 53,
-			1999 => 53,
-			2000 => 54,
-			2001 => 53,	
-			2002 => 53,	
-			2003 => 53,	
-			2004 => 53,	
-			2005 => 53,	
-			2006 => 53,	
-			2007 => 53,	
-			2008 => 53,	
-			2009 => 53,	
-			2010 => 53,	
-			2011 => 53,	
-			2012 => 53,	
-			2013 => 53,	
-			2014 => 53,	
-			2015 => 53,	
-			2016 => 53,	
-		}.each { |year, weeks|
+  def test_week_gets_correct_last_week_number
+    years_days_to_test.each { |year, weeks|
 			date = DateTime.new(year, 12, 31)
 			assert_equal(weeks, date.week, "week #{date.week} in year #{year} != 1")
 		}
+  end
 
+  def test_expected_week_one_regardless_of_year
 		(2000..2006).each do |year|
 			day = 1
-				date = DateTime.new(year, 1, day)
-				assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 1")
-#			end
+      date = DateTime.new(year, 1, day)
+      assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 1")
 		end
-
-#		date = DateTime.new(2003, 1, 1)
-#		week = date.week(4)
-#		assert_equal(week, 1, "week #{week} on date #{date.to_s} != 1")
-#		date = DateTime.new(2003, 1, 2)
-#		week = date.week(4)
-#		assert_equal(week, 2, "week #{week} on date #{date.to_s} != 2")
-#		week = date.week(10)
-#		assert_equal(week, 2, "week #{week} on date #{date.to_s} != 2")
-#		date = DateTime.new(2003, 1, 3)
-#		week = date.week(4)
-#		assert_equal(week, 2, "week #{week} on date #{date.to_s} != 2")
 	end
 
 	def test_weeks_in_year
-		years_days = {
-			2000 => 54,
-			2001 => 53,	
-			2002 => 53,	
-			2003 => 53,	
-			2004 => 53,	
-			2005 => 54,	
-			2006 => 53,	
-			2007 => 53,	
-			2008 => 53,	
-			2009 => 53,	
-			2010 => 53,	
-			2011 => 54,	
-			2012 => 53,	
-			2013 => 53,	
-			2014 => 53,	
-			2015 => 53,	
-		}.each { |year, weeks|
+		years_days_to_test.each { |year, weeks|
 			date = DateTime.new(year, 12, 31)
 			assert_equal weeks, date.weeks_in_year, "week #{date.week} on date #{date.to_s} != 1"
 		}
@@ -365,4 +269,28 @@ class ShiftyWeekTest < Test::Unit::TestCase
 		assert_equal(DateTime.new(2007, 11).last_week_day, 5);
 		assert_equal(DateTime.new(2007, 12).last_week_day, 1);
 	end
+
+  private
+    
+		def years_days_to_test
+      { 1998 => 53,
+        1999 => 53,
+        2000 => 54,
+        2001 => 53,	
+        2002 => 53,	
+        2003 => 53,	
+        2004 => 53,	
+        2005 => 53,	
+        2006 => 53,	
+        2007 => 53,	
+        2008 => 53,	
+        2009 => 53,	
+        2010 => 53,	
+        2011 => 53,	
+        2012 => 53,	
+        2013 => 53,	
+        2014 => 53,	
+        2015 => 53,	
+        2016 => 53	}
+    end
 end

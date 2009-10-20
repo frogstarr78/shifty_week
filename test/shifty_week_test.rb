@@ -63,7 +63,7 @@ class ShiftyWeekTest < Test::Unit::TestCase
   def test_week_gets_correct_last_week_number
     years_days_to_test.each { |year, weeks|
 			date = DateTime.new(year, 12, 31)
-			assert_equal(weeks, date.week, "week #{date.week} in year #{year} != 1")
+			assert_equal(date.weeks_in_year, date.week, "week #{date.week} in year #{year} != 1")
 		}
   end
 
@@ -73,13 +73,6 @@ class ShiftyWeekTest < Test::Unit::TestCase
       date = DateTime.new(year, 1, day)
       assert_equal(1, date.week, "week #{date.week} on date #{date.to_s} != 1")
 		end
-	end
-
-	def test_weeks_in_year
-		years_days_to_test.each { |year, weeks|
-			date = DateTime.new(year, 12, 31)
-			assert_equal weeks, date.weeks_in_year, "week #{date.week} on date #{date.to_s} != 1"
-		}
 	end
 
 	def test_wday_offset
@@ -166,54 +159,54 @@ class ShiftyWeekTest < Test::Unit::TestCase
 		)
   end
 
-  def test_week_days_span_month_and_year_boundary_non_leap_year_with_specific_day_but_non_configured_week_day_start
+  def unshifted_week_spanning_month_and_year
+    [
+      DateTime.new(2007, 12, 30).to_s, 
+      DateTime.new(2007, 12, 31).to_s, 
+      DateTime.new(2008, 1, 1).to_s,
+      DateTime.new(2008, 1, 2).to_s,
+      DateTime.new(2008, 1, 3).to_s,
+      DateTime.new(2008, 1, 4).to_s,
+      DateTime.new(2008, 1, 5).to_s,
+    ]
+  end
+
+  def shifted_week_after_spanning_month_and_year_unshifted
+    [
+      DateTime.new(2008, 1, 1).to_s,
+      DateTime.new(2008, 1, 2).to_s,
+      DateTime.new(2008, 1, 3).to_s,
+      DateTime.new(2008, 1, 4).to_s,
+      DateTime.new(2008, 1, 5).to_s,
+      DateTime.new(2008, 1, 6).to_s,
+      DateTime.new(2008, 1, 7).to_s,
+    ]
+  end
+
+  def re_shifted_week_after_spanning_month_and_year_unshifted
+    [
+      DateTime.new(2008, 1, 2).to_s,
+      DateTime.new(2008, 1, 3).to_s,
+      DateTime.new(2008, 1, 4).to_s,
+      DateTime.new(2008, 1, 5).to_s,
+      DateTime.new(2008, 1, 6).to_s,
+      DateTime.new(2008, 1, 7).to_s,
+      DateTime.new(2008, 1, 8).to_s,
+    ]
+  end
+  private :unshifted_week_spanning_month_and_year, :shifted_week_after_spanning_month_and_year_unshifted, :re_shifted_week_after_spanning_month_and_year_unshifted
+
+  def test_week_days_span_month_and_year_boundary_non_leap_year_changing_the_week_day_start
 		date = DateTime.new(2007, 12, 31)
-		assert_equal([
-				DateTime.new(2007, 12, 30).to_s, 
-				DateTime.new(2007, 12, 31).to_s, 
-				DateTime.new(2008, 1, 1).to_s,
-				DateTime.new(2008, 1, 2).to_s,
-				DateTime.new(2008, 1, 3).to_s,
-				DateTime.new(2008, 1, 4).to_s,
-				DateTime.new(2008, 1, 5).to_s,
-			], 
-			date.week_days.collect {|date| date.to_s}
-		)
+		assert_equal(unshifted_week_spanning_month_and_year, date.week_days.collect {|date| date.to_s})
 		assert_equal('2008-01-05', date.strftime("%Y-%m-%d"))
-  end
 
-  def test_week_days_with_configured_integer_week_day_start
-		date = DateTime.new(2007, 12, 31)
 		date.week_day_start = 2
-		assert_equal([
-				DateTime.new(2008, 1, 1).to_s,
-				DateTime.new(2008, 1, 2).to_s,
-				DateTime.new(2008, 1, 3).to_s,
-				DateTime.new(2008, 1, 4).to_s,
-				DateTime.new(2008, 1, 5).to_s,
-				DateTime.new(2008, 1, 6).to_s,
-				DateTime.new(2008, 1, 7).to_s,
-			],
-			date.week_days.collect {|date| date.to_s }
-		)
-
+		assert_equal(shifted_week_after_spanning_month_and_year_unshifted, date.week_days.collect {|date| date.to_s })
 		assert_equal('2008-01-07', date.strftime("%Y-%m-%d"))
-  end
 
-  def test_week_days_with_abbreviated_week_day_name_week_day_start
-		date = DateTime.new(2007, 12, 31)
 		date.week_day_start = 'We'
-		assert_equal([
-				DateTime.new(2008, 1, 2).to_s,
-				DateTime.new(2008, 1, 3).to_s,
-				DateTime.new(2008, 1, 4).to_s,
-				DateTime.new(2008, 1, 5).to_s,
-				DateTime.new(2008, 1, 6).to_s,
-				DateTime.new(2008, 1, 7).to_s,
-				DateTime.new(2008, 1, 8).to_s,
-			],
-			date.week_days.collect {|date| date.to_s }
-		)
+		assert_equal(re_shifted_week_after_spanning_month_and_year_unshifted, date.week_days.collect {|date| date.to_s })
 	end
 
   def test_step_to_month_end

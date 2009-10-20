@@ -2,13 +2,6 @@ class Date
   include ShiftyWeek
 	attr_writer :week_day_start
 
-  alias_method :'weekless_>>', :'>>'
-  def >> int
-    new_day = send(:'weekless_>>', int)
-    new_day.week_day_start = self.week_day_start
-    new_day
-  end
-
   alias_method :step_to_date, :step #:nodoc:
 #   Seemed to make more sense to me to have step accept an integer number 
 #   see step_to_date for previous behavior. Although, you can still pass
@@ -19,9 +12,9 @@ class Date
       limit = (self + limit)-1
       method = 'step'
     end
-    send(method, limit, step) {|d| 
-      d.week_day_start = self.week_day_start
-      yield d 
+    send(method, limit, step) {|a_day| 
+      a_day.week_day_start = self.week_day_start
+      yield a_day 
     }
   end
 end

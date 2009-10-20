@@ -1,6 +1,7 @@
 require 'test/test_helper'
 
 class DateTest < Test::Unit::TestCase
+  FORMAT = 
 	def test_step
 		date = Date.strptime Time.now.strftime("%Y-%m-%d")
 		future_date = date+6

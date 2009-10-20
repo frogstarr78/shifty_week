@@ -49,7 +49,7 @@ end
 task :test => :check_dependencies
 
 begin
-  require 'reek/rake_task'
+  require 'reek/adapters/rake_task'
   Reek::RakeTask.new do |t|
     t.fail_on_error = true
     t.verbose = false

@@ -30,6 +30,7 @@
 #    28 29 30 31
 
 module ShiftyWeek
+  WORKER_FORMAT = "%Y-%m-%d %H:%M:%S"
   class Constants # :nodoc:
     SUMMARY     = %q{Calculate dates based on a configurable first day of the week.}
     DESCRIPTION = %q{Calculate dates based on a configurable first day of the week. If you want
@@ -58,9 +59,9 @@ module ShiftyWeek
     Time.send("month_days", self.year, self.month)
   end
 
-  #  alculate the number of weeks in a year taking into account "shifted" weeks
+  #  Calculate the number of weeks in a year taking into account "shifted" weeks
   def weeks_in_year
-    return (self-(self.yday-1)).wday == 6 ? 54 : 53
+    return (self-(self.yday-1)).wday == 6 && self.leap? ? 54 : 53
   end
 
   # Get the offset of this object's date, to the first day of the week.
@@ -84,8 +85,8 @@ module ShiftyWeek
     working_date.week_day_start = self.week_day_start
     working_date = (working_date-working_date.send("wday_offset"))
     week_num = 0
-    working_date.step(self) { |d| 
-      if d.wday == _week_day_numbers.first
+    working_date.step(self) { |a_day| 
+      if a_day.wday == _week_day_numbers.first
         week_num += 1
       end
     }
@@ -108,12 +109,12 @@ module ShiftyWeek
   def week_days(options={}, &block)
     start_date = self
     result = []
-    (start_date-wday_offset).step 7 do |d|
-      d.week_day_start = self.week_day_start
+    (start_date-wday_offset).step 7 do |a_day|
+      a_day.week_day_start = self.week_day_start
       if block_given?
-        yield d
+        yield a_day
       else
-      result.push(d)
+        result.push(a_day)
       end
     end
     result
@@ -135,7 +136,7 @@ module ShiftyWeek
   # Hopefully the name explains what this method does
   def step_to_month_end step = 1
     days_in_month = self.days_in_month
-    days_in_month += self.wday_offset if self.days_in_month%(7*4) >= 0
+    days_in_month += self.wday_offset if days_in_month%(7*4) >= 0
     self.step(days_in_month, step) do |date| 
       date.week_day_start = self.week_day_start
       yield date

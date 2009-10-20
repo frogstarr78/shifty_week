@@ -15,9 +15,13 @@ begin
     gem.homepage = "http://github.com/frogstarr78/shifty_week"
     gem.authors = ["Scott Noel-Hemming"]
     gem.rdoc_options << '--main' << 'ShiftyWeek' << '--line-numbers'
+    gem.rubyforge_project = "shifty-week"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
+  Jeweler::RubyforgeTasks.new do |rubyforge|
+    rubyforge.doc_task = "rdoc"
+  end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end

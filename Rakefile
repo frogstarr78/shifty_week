@@ -6,8 +6,11 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "shifty_week"
-    gem.summary = ShiftyWeek::Constants::SUMMARY
-    gem.description = ShiftyWeek::Constants::DESCRIPTION
+    gem.summary = %q{Calculate dates based on a configurable first day of the week.}
+    gem.description = %q{Calculate dates based on a configurable first day of the week. If you want
+    the first day of the week to be Wednesday and the current calendar Year-Month are 2009-10,
+    DateTime#week_days will return an array of DateTime objects which when formatted with "%Y-%m-%d %a" look like 
+    ["2009-10-14 Wed", "2009-10-15 Thu", "2009-10-16 Fri", "2009-10-17 Sat", "2009-10-18 Sun", "2009-10-19 Mon", "2009-10-20 Tue"] }
     gem.email = "frogstarr78@gmail.com"
     gem.homepage = "http://github.com/frogstarr78/shifty_week"
     gem.authors = ["Scott Noel-Hemming"]

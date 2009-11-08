@@ -2,6 +2,22 @@
 
 Description in ShiftyWeek[link:classes/ShiftyWeek.html]
 
+== Quick Intro
+
+n = DateTime.now
+n.week_day_start = 'Wednesday'
+n.week_days # => [2009-11-04T00:16:27-08:00, 2009-11-05T00:16:27-08:00, 2009-11-06T00:16:27-08:00, 2009-11-07T00:16:27-08:00, 2009-11-08T00:16:27-08:00, 2009-11-09T00:16:27-08:00, 2009-11-10T00:16:27-08:00]
+
+
+== Installation
+
+1. Require the gem
+2. Require the libs:
+
+   shifty_week
+   shifty_week/time
+   shifty_week/date
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
